@@ -138,16 +138,31 @@
     [textField resignFirstResponder];
     
     NSString *URLString = textField.text;
-    
     NSURL *URL = [NSURL URLWithString:URLString];
     
-    //check that user entered scheme (http or https)
+    //Identify query or URL entered by checking for .
+    NSUInteger periodLocation = [URLString rangeOfString:@"."].location;
+    
+    //If no . then query words entered
+    if (periodLocation == NSNotFound)
+    {
+        
+        NSString *queryString = [URLString stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+        
+        NSString *newURLString = [NSString stringWithFormat:@"http://www.google.com/search?q=%@", queryString];
+        
+        URL = [NSURL URLWithString:newURLString];
+        
+    }
+    
+    //check that user entered scheme (http or https); if not set it
     if (!URL.scheme)
     {
         URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", URLString]];
     }
     
     
+    //load the request
     if (URL)
     {
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
@@ -155,6 +170,7 @@
     }
     
     return NO;
+
 }
 
 

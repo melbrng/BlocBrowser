@@ -32,9 +32,29 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // Use recording to get started writing UI tests.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+- (void)testURL {
+    
+    //queries to look for objects in app
+    XCUIApplication *app = [[XCUIApplication alloc] init];
+    XCUIElement *websiteUrlTextField = app.textFields[@"Enter Website URL or Search Terms"];
+    
+    
+    [websiteUrlTextField tap];
+    [websiteUrlTextField typeText:@"www.google.com"];
+    [app typeText:@"\r"];
+    
+}
+
+- (void)testSearchQuery {
+    
+    //queries to look for objects in app
+    XCUIApplication *app2 = [[XCUIApplication alloc] init];
+    XCUIElement *enterWebsiteUrlOrSearchTermsTextField = app2.textFields[@"Enter Website URL or Search Terms"];
+    [enterWebsiteUrlOrSearchTermsTextField tap];
+    [enterWebsiteUrlOrSearchTermsTextField typeText:@"monkey hats"];
+    [app2 typeText:@"\r"];
+    
+    
 }
 
 @end

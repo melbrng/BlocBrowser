@@ -10,6 +10,7 @@
 
 @interface ViewController : UIViewController
 
+- (NSURL *) setURLForWebOrQueryTerms:(NSString *) textString;
 
 @end
 

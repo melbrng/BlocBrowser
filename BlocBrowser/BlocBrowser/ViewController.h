@@ -12,5 +12,7 @@
 
 - (NSURL *) setURLForWebOrQueryTerms:(NSString *) textString;
 
+- (void) resetWebView;
+
 @end
 

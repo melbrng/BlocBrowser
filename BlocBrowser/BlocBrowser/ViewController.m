@@ -46,6 +46,7 @@
     self.textField.delegate = self;
     
     self.awesomeToolbar = [[AwesomeFloatingToolbar alloc]initWithFourTitles:@[kWebBrowserBackString,kWebBrowserForwardString,kWebBrowserRefreshString,kWebBrowserStopString]];
+    self.awesomeToolbar.delegate = self;
     
     //add the objects to the mainView
     NSArray *viewArray = @[self.webView,self.textField,self.awesomeToolbar];
@@ -254,6 +255,7 @@
 //remove existing webView from hierarchy and create a new webView
 //this is for clearing history when the app becomes inactive
 - (void) resetWebView {
+    
     [self.webView removeFromSuperview];
     
     WKWebView *newWebView = [[WKWebView alloc] init];

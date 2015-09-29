@@ -14,6 +14,7 @@
 		4301CB7F1BB316CA00298037 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4301CB7D1BB316CA00298037 /* LaunchScreen.storyboard */; };
 		4301CB8A1BB316CB00298037 /* BlocBrowserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4301CB891BB316CB00298037 /* BlocBrowserTests.m */; };
 		4301CB951BB316CB00298037 /* BlocBrowserUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4301CB941BB316CB00298037 /* BlocBrowserUITests.m */; };
+		43CB89DA1BB9BE0700D9C4BB /* AwesomeFloatingToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CB89D91BB9BE0700D9C4BB /* AwesomeFloatingToolbar.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,8 @@
 		4301CB901BB316CB00298037 /* BlocBrowserUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlocBrowserUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4301CB941BB316CB00298037 /* BlocBrowserUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlocBrowserUITests.m; sourceTree = "<group>"; };
 		4301CB961BB316CB00298037 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		43CB89D81BB9BE0700D9C4BB /* AwesomeFloatingToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwesomeFloatingToolbar.h; sourceTree = "<group>"; };
+		43CB89D91BB9BE0700D9C4BB /* AwesomeFloatingToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AwesomeFloatingToolbar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +106,8 @@
 				4301CB731BB316CA00298037 /* AppDelegate.m */,
 				4301CB751BB316CA00298037 /* ViewController.h */,
 				4301CB761BB316CA00298037 /* ViewController.m */,
+				43CB89D81BB9BE0700D9C4BB /* AwesomeFloatingToolbar.h */,
+				43CB89D91BB9BE0700D9C4BB /* AwesomeFloatingToolbar.m */,
 				4301CB7B1BB316CA00298037 /* Assets.xcassets */,
 				4301CB7D1BB316CA00298037 /* LaunchScreen.storyboard */,
 				4301CB801BB316CA00298037 /* Info.plist */,
@@ -270,6 +275,7 @@
 				4301CB771BB316CA00298037 /* ViewController.m in Sources */,
 				4301CB741BB316CA00298037 /* AppDelegate.m in Sources */,
 				4301CB711BB316CA00298037 /* main.m in Sources */,
+				43CB89DA1BB9BE0700D9C4BB /* AwesomeFloatingToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

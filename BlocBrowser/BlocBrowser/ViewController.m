@@ -50,6 +50,7 @@
     
     //add the objects to the mainView
     NSArray *viewArray = @[self.webView,self.textField,self.awesomeToolbar];
+    
     for (UIView *viewToAdd in viewArray)
     {
         [mainView addSubview:viewToAdd];
@@ -57,6 +58,7 @@
     
     self.view = mainView;
 
+   // [self showWelcomeAlert];
 }
 
 
@@ -64,8 +66,7 @@
     
     [super viewDidLoad];
     
-    [self showWelcomeAlert];
-    
+
     //prevents objects from being pushed up under the nav bar and underneath the status bar
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -99,6 +100,10 @@
 
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self showWelcomeAlert];
+}
 
 #pragma mark UITextField delegate
 

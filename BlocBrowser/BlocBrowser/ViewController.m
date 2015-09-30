@@ -210,16 +210,36 @@
 
 #pragma mark - AwesomeFloatingToolbarDelegate
 
-- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didSelectButtonWithTitle:(NSString *)title {
+- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didSelectButtonWithTitle:(NSString *)title
+{
     
-    if ([title isEqual:kWebBrowserBackString]) {
+    if ([title isEqual:kWebBrowserBackString])
+    {
         [self.webView goBack];
-    } else if ([title isEqual:kWebBrowserForwardString]) {
+    } else if ([title isEqual:kWebBrowserForwardString])
+    {
         [self.webView goForward];
-    } else if ([title isEqual:kWebBrowserStopString]) {
+    } else if ([title isEqual:kWebBrowserStopString])
+    {
         [self.webView stopLoading];
-    } else if ([title isEqual:kWebBrowserRefreshString]) {
+    } else if ([title isEqual:kWebBrowserRefreshString])
+    {
         [self.webView reload];
+    }
+}
+
+//implement here, where toolbar is assigned a new frame
+- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPanWithOffset:(CGPoint)offset
+{
+    CGPoint startingPoint = toolbar.frame.origin;
+    CGPoint newPoint = CGPointMake(startingPoint.x + offset.x, startingPoint.y + offset.y);
+    
+    CGRect potentialNewFrame = CGRectMake(newPoint.x, newPoint.y, CGRectGetWidth(toolbar.frame), CGRectGetHeight(toolbar.frame));
+    
+    //check that new toolbar frame is contained within in the bounds of the screen (ie.not falling off the screen)
+    if (CGRectContainsRect(self.view.bounds, potentialNewFrame))
+    {
+        toolbar.frame = potentialNewFrame;
     }
 }
 

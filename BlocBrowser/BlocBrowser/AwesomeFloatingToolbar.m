@@ -14,6 +14,8 @@
 @property (nonatomic, strong) NSArray *colors;
 @property (nonatomic, strong) NSArray *labels;
 @property (nonatomic, weak) UILabel *currentLabel;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
+@property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 
 @end
 
@@ -59,6 +61,16 @@
             [self addSubview:thisLabel];
         }
     }
+    
+    //call tapFired when tap is detected
+    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFired:)];
+    
+    //tells the view (self) to route touch events through this recognizer
+    [self addGestureRecognizer:self.tapGesture];
+    
+    self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panFired:)];
+    [self addGestureRecognizer:self.panGesture];
+
     
     return self;
 }
@@ -111,61 +123,6 @@
 }
 
 
-//when touch begins dim the label
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    UILabel *label = [self labelFromTouches:touches withEvent:event];
-    
-    self.currentLabel = label;
-    self.currentLabel.alpha = 0.5;
-}
-
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    UILabel *label = [self labelFromTouches:touches withEvent:event];
-    
-    if (self.currentLabel != label)
-    {
-        // The label being touched is no longer the initial label
-        self.currentLabel.alpha = 1;
-        
-    }
-    else
-    {
-        // The label being touched is the initial label
-        self.currentLabel.alpha = 0.5;
-    }
-}
-
-//
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    UILabel *label = [self labelFromTouches:touches withEvent:event];
-    
-    if (self.currentLabel == label)
-    {
-        NSLog(@"Label tapped: %@", self.currentLabel.text);
-        
-        //check that delegate has implemented method
-        if ([self.delegate respondsToSelector:@selector(floatingToolbar:didSelectButtonWithTitle:)])
-        {
-            [self.delegate floatingToolbar:self didSelectButtonWithTitle:self.currentLabel.text];
-        }
-    }
-    
-    self.currentLabel.alpha = 1;
-    self.currentLabel = nil;
-}
-
-//reset variables
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    self.currentLabel.alpha = 1;
-    self.currentLabel = nil;
-}
-
-
 #pragma mark - Button Enabling
 
 - (void) setEnabled:(BOOL)enabled forButtonWithTitle:(NSString *)title
@@ -180,5 +137,47 @@
     }
 }
 
+
+- (void) tapFired:(UITapGestureRecognizer *)recognizer
+{
+    // a tap gesture has been recognized
+    if (recognizer.state == UIGestureRecognizerStateRecognized)
+    {
+        //records x,y coordinate with respect to view.bounds
+        CGPoint location = [recognizer locationInView:self];
+        
+        //determine which view received the tap
+        UIView *tappedView = [self hitTest:location withEvent:nil];
+        
+        //we check if the view that was tapped was in fact one of our toolbar labels and if so, we verify our delegate for compatibility before performing the appropriate method call.
+        if ([self.labels containsObject:tappedView])
+        {
+            if ([self.delegate respondsToSelector:@selector(floatingToolbar:didSelectButtonWithTitle:)])
+            {
+                [self.delegate floatingToolbar:self didSelectButtonWithTitle:((UILabel *)tappedView).text];
+            }
+        }
+    }
+}
+
+- (void) panFired:(UIPanGestureRecognizer *)recognizer
+{
+    //recognizes a pan gesture
+    if (recognizer.state == UIGestureRecognizerStateChanged)
+    {
+        //how far finger moved in each direction after touch event
+        CGPoint translation = [recognizer translationInView:self];
+        
+        NSLog(@"New translation: %@", NSStringFromCGPoint(translation));
+        
+        if ([self.delegate respondsToSelector:@selector(floatingToolbar:didTryToPanWithOffset:)])
+        {
+            [self.delegate floatingToolbar:self didTryToPanWithOffset:translation];
+        }
+        
+        //reset to zero so get difference of each minipan
+        [recognizer setTranslation:CGPointZero inView:self];
+    }
+}
 
 @end

@@ -16,6 +16,9 @@
 @property (nonatomic, weak) UILabel *currentLabel;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
+@property (nonatomic, strong) UIPinchGestureRecognizer *pinchGesture;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGesture;
+
 
 @end
 
@@ -70,7 +73,13 @@
     
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panFired:)];
     [self addGestureRecognizer:self.panGesture];
-
+    
+    self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchFired:)];
+    [self addGestureRecognizer:self.pinchGesture];
+    
+//    self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressFired:)];
+//    [self.longPressGesture setMinimumPressDuration:1];
+//    [self addGestureRecognizer:self.longPressGesture];
     
     return self;
 }
@@ -79,16 +88,33 @@
 - (void) layoutSubviews {
     
     // set the frames for the 4 labels
-    
-    CGFloat labelX = 0;
-    CGFloat labelY = 0;
+
     
     for (UILabel *thisLabel in self.labels) {
+        NSUInteger currentLabelIndex = [self.labels indexOfObject:thisLabel];
         
-        CGFloat labelHeight = CGRectGetHeight(self.bounds) / 4;
-        CGFloat labelWidth = CGRectGetWidth(self.bounds) / 4;
-
-        labelX += CGRectGetWidth(self.bounds) / 4;
+        CGFloat labelHeight = CGRectGetHeight(self.bounds) / 2;
+        CGFloat labelWidth = CGRectGetWidth(self.bounds) / 2;
+        CGFloat labelX = 0;
+        CGFloat labelY = 0;
+        
+        // adjust labelX and labelY for each label
+        if (currentLabelIndex < 2) {
+            // 0 or 1, so on top
+            labelY = 0;
+        } else {
+            // 2 or 3, so on bottom
+            labelY = CGRectGetHeight(self.bounds) / 2;
+        }
+        
+        if (currentLabelIndex % 2 == 0) { // is currentLabelIndex evenly divisible by 2?
+            // 0 or 2, so on the left
+            labelX = 0;
+        } else {
+            // 1 or 3, so on the right
+            labelX = CGRectGetWidth(self.bounds) / 2;
+        }
+        
         thisLabel.frame = CGRectMake(labelX, labelY, labelWidth, labelHeight);
     }
 }
@@ -180,4 +206,51 @@
     }
 }
 
+- (void) pinchFired:(UIPinchGestureRecognizer *)recognizer
+{
+    //recognizes a pinch gesture
+    if (recognizer.state == UIGestureRecognizerStateChanged)
+    {
+        
+        NSLog(@"pinch");
+        
+        //records x,y coordinate with respect to view.bounds
+     //   CGPoint location = [recognizer locationInView:self];
+        
+        //determine which view received the tap
+   //     UIView *tappedView = [self hitTest:location withEvent:nil];
+        
+        if ([self.delegate respondsToSelector:@selector(floatingToolbar:didTryToPinchWithScale:)])
+        {
+            [self.delegate floatingToolbar:self didTryToPinchWithScale:recognizer.scale];
+        }
+        
+        [recognizer setScale:1.0f];
+    }
+}
+
+
+//- (void) longPressFired:(UILongPressGestureRecognizer *)recognizer
+//{
+//    //recognizes a pinch gesture
+//    if (recognizer.state == UIGestureRecognizerStateChanged)
+//    {
+//        
+//        //records x,y coordinate with respect to view.bounds
+//           CGPoint location = [recognizer locationInView:self];
+//        
+//        //determine which view received the tap
+//             UIView *tappedView = [self hitTest:location withEvent:nil];
+//        
+//        if ([self.labels containsObject:tappedView])
+//        {
+//            if ([self.delegate respondsToSelector:@selector(floatingToolbar:didTryLongPressWithDuration:)])
+//            {
+//                [self.delegate floatingToolbar:self didTryLongPressWithDuration:1.0f];
+//                    NSLog(@"longPress");
+//            }
+//        }
+//
+//    }
+//}
 @end

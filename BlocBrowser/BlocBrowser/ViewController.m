@@ -96,7 +96,7 @@
     //CGRectGetMaxY determines the max Y of the textfield frame
     self.webView.frame = CGRectMake(0, CGRectGetMaxY(self.textField.frame), width, browserHeight);
     
-    self.awesomeToolbar.frame = CGRectMake(20,100,280,60);
+    self.awesomeToolbar.frame = CGRectMake(20,100,200,60);
 
 }
 
@@ -216,12 +216,15 @@
     if ([title isEqual:kWebBrowserBackString])
     {
         [self.webView goBack];
+        
     } else if ([title isEqual:kWebBrowserForwardString])
     {
         [self.webView goForward];
+        
     } else if ([title isEqual:kWebBrowserStopString])
     {
         [self.webView stopLoading];
+        
     } else if ([title isEqual:kWebBrowserRefreshString])
     {
         [self.webView reload];
@@ -241,6 +244,12 @@
     {
         toolbar.frame = potentialNewFrame;
     }
+}
+
+- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPinchWithScale:(CGFloat)scale
+{
+    self.awesomeToolbar.transform = CGAffineTransformScale(self.awesomeToolbar.transform,scale, scale);
+
 }
 
 #pragma mark - button methods

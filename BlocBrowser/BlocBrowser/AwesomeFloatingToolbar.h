@@ -19,6 +19,10 @@
 //this will put the decision of whether the toolbar(subview) is allowed to be moved around in viewController on the parent view
 - (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPanWithOffset:(CGPoint)offset;
 
+- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPinchWithScale:(CGFloat)scale;
+
+//- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryLongPressWithDuration:(CGFloat)scale;
+
 @end
 
 @interface AwesomeFloatingToolbar : UIView

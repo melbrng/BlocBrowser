@@ -48,6 +48,9 @@
     self.awesomeToolbar = [[AwesomeFloatingToolbar alloc]initWithFourTitles:@[kWebBrowserBackString,kWebBrowserForwardString,kWebBrowserRefreshString,kWebBrowserStopString]];
     self.awesomeToolbar.delegate = self;
     
+    //set default toolbar frame
+    self.awesomeToolbar.frame = CGRectMake(20,100,200,60);
+    
     //add the objects to the mainView
     NSArray *viewArray = @[self.webView,self.textField,self.awesomeToolbar];
     
@@ -95,8 +98,9 @@
     
     //CGRectGetMaxY determines the max Y of the textfield frame
     self.webView.frame = CGRectMake(0, CGRectGetMaxY(self.textField.frame), width, browserHeight);
-    
-    self.awesomeToolbar.frame = CGRectMake(20,100,200,60);
+
+    //remove so toolbar is resizable upon pinch gesture
+   // self.awesomeToolbar.frame = CGRectMake(20,100,200,60);
 
 }
 

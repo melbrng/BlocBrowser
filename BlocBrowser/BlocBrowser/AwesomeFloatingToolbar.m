@@ -12,10 +12,7 @@
 
 @property (nonatomic, strong) NSArray *currentTitles;
 @property (nonatomic, strong) NSArray *colors;
-@property (nonatomic, strong) NSArray *labels;
 @property (nonatomic, strong) NSArray *buttons;
-@property (nonatomic, weak) UILabel *currentLabel;
-@property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGesture;
 @property (nonatomic, strong) UILongPressGestureRecognizer *longPressGesture;
@@ -56,7 +53,7 @@ BOOL longPress = NO;
             [button setTitle:titleForThisLabel forState:UIControlStateNormal];
             [button setBackgroundColor:colorForThisLabel];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-         //   [button addTarget:self action:@selector(stopLoading) forControlEvents:UIControlEventTouchUpInside];
+            [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
 
             [buttonsArray addObject:button];
         }
@@ -69,22 +66,16 @@ BOOL longPress = NO;
     }
     
     
-    //call tapFired when tap is detected
-    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFired:)];
-    
-    //tells the view (self) to route touch events through this recognizer
-    [self addGestureRecognizer:self.tapGesture];
-    
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panFired:)];
     [self addGestureRecognizer:self.panGesture];
     
     self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchFired:)];
     [self addGestureRecognizer:self.pinchGesture];
     
-//    self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressFired:)];
-//    [self.longPressGesture setMinimumPressDuration:2];
-//    [self addGestureRecognizer:self.longPressGesture];
-//    
+    self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressFired:)];
+    [self.longPressGesture setMinimumPressDuration:2];
+    [self addGestureRecognizer:self.longPressGesture];
+    
     return self;
 }
 
@@ -123,37 +114,10 @@ BOOL longPress = NO;
 
 }
 
-#pragma mark - Touch Handling
-
-////determins which of the labels was touched
-//- (UILabel *) labelFromTouches:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//    //take touch from touch set
-//    UITouch *touch = [touches anyObject];
-//    
-//    //determine screen coordinates
-//    CGPoint location = [touch locationInView:self];
-//    
-//    //find view at that location
-//    UIView *subview = [self hitTest:location withEvent:event];
-//    
-//    //return label
-//    if ([subview isKindOfClass:[UILabel class]])
-//    {
-//        return (UILabel *)subview;
-//        
-//    }
-//    
-//    else
-//    {
-//        
-//        return nil;
-//        
-//    }
-//}
 
 
-#pragma mark - Button Enabling
+
+#pragma mark - Button Enabling and Handling
 
 - (void) setEnabled:(BOOL)enabled forButtonWithTitle:(NSString *)title
 {
@@ -168,6 +132,22 @@ BOOL longPress = NO;
     }
 }
 
+- (void)buttonPressed:(id)sender
+{
+    UIButton* pressedButton = (UIButton*)sender;
+    NSString *buttonTitle = pressedButton.titleLabel.text;
+    
+    if ([self.delegate respondsToSelector:@selector(floatingToolbar:didSelectButtonWithTitle:)])
+    {
+        
+        [self.delegate floatingToolbar:self didSelectButtonWithTitle:buttonTitle];
+        
+    }
+    
+}
+
+
+#pragma mark - Touch Handling
 
 - (void) tapFired:(UITapGestureRecognizer *)recognizer
 {
@@ -219,14 +199,6 @@ BOOL longPress = NO;
     if (recognizer.state == UIGestureRecognizerStateChanged)
     {
         
-        NSLog(@"pinch");
-        
-        //records x,y coordinate with respect to view.bounds
-     //   CGPoint location = [recognizer locationInView:self];
-        
-        //determine which view received the tap
-   //     UIView *tappedView = [self hitTest:location withEvent:nil];
-        
         if ([self.delegate respondsToSelector:@selector(floatingToolbar:didTryToPinchWithScale:)])
         {
             [self.delegate floatingToolbar:self didTryToPinchWithScale:recognizer.scale];
@@ -242,8 +214,7 @@ BOOL longPress = NO;
     
     if (recognizer.state == UIGestureRecognizerStateBegan)
     {
-        //depending on if a longPress has been performed, the button colors will change
-        NSLog(longPress ? @"Yes" : @"No");
+        //depending on if a longPress has been performed, the button colors will change otherwise reset to original colors
         
         if (longPress == NO )
         {

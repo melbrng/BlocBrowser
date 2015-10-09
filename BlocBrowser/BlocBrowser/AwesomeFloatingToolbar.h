@@ -21,7 +21,6 @@
 
 - (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPinchWithScale:(CGFloat)scale;
 
-- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryLongPressWithDuration:(CGFloat)scale;
 
 @end
 

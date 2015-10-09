@@ -43,7 +43,7 @@ BOOL longPress = NO;
         
         NSMutableArray *buttonsArray = [[NSMutableArray alloc] init];
         
-        // Make the 4 labels
+        // Make the 4 buttons
         for (NSString *currentTitle in self.currentTitles) {
             UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             button.userInteractionEnabled = NO;
@@ -56,7 +56,7 @@ BOOL longPress = NO;
             [button setTitle:titleForThisLabel forState:UIControlStateNormal];
             [button setBackgroundColor:colorForThisLabel];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [button addTarget:self action:@selector(stopLoading) forControlEvents:UIControlEventTouchUpInside];
+         //   [button addTarget:self action:@selector(stopLoading) forControlEvents:UIControlEventTouchUpInside];
 
             [buttonsArray addObject:button];
         }
@@ -81,10 +81,10 @@ BOOL longPress = NO;
     self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchFired:)];
     [self addGestureRecognizer:self.pinchGesture];
     
-    self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressFired:)];
-    [self.longPressGesture setMinimumPressDuration:2];
-    [self addGestureRecognizer:self.longPressGesture];
-    
+//    self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressFired:)];
+//    [self.longPressGesture setMinimumPressDuration:2];
+//    [self addGestureRecognizer:self.longPressGesture];
+//    
     return self;
 }
 
@@ -125,32 +125,32 @@ BOOL longPress = NO;
 
 #pragma mark - Touch Handling
 
-//determins which of the labels was touched
-- (UILabel *) labelFromTouches:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    //take touch from touch set
-    UITouch *touch = [touches anyObject];
-    
-    //determine screen coordinates
-    CGPoint location = [touch locationInView:self];
-    
-    //find view at that location
-    UIView *subview = [self hitTest:location withEvent:event];
-    
-    //return label
-    if ([subview isKindOfClass:[UILabel class]])
-    {
-        return (UILabel *)subview;
-        
-    }
-    
-    else
-    {
-        
-        return nil;
-        
-    }
-}
+////determins which of the labels was touched
+//- (UILabel *) labelFromTouches:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+//    //take touch from touch set
+//    UITouch *touch = [touches anyObject];
+//    
+//    //determine screen coordinates
+//    CGPoint location = [touch locationInView:self];
+//    
+//    //find view at that location
+//    UIView *subview = [self hitTest:location withEvent:event];
+//    
+//    //return label
+//    if ([subview isKindOfClass:[UILabel class]])
+//    {
+//        return (UILabel *)subview;
+//        
+//    }
+//    
+//    else
+//    {
+//        
+//        return nil;
+//        
+//    }
+//}
 
 
 #pragma mark - Button Enabling

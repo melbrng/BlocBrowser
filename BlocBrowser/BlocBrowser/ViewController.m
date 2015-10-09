@@ -29,7 +29,7 @@
 
 //create the main view
 - (void)loadView {
-    
+        NSLog(@"loadView");
     UIView *mainView = [UIView new];
 
     
@@ -66,7 +66,7 @@
 
 
 - (void)viewDidLoad {
-    
+        NSLog(@"viewDidLoad");
     [super viewDidLoad];
     
 
@@ -80,7 +80,13 @@
 
 }
 
--(void)viewDidLayoutSubviews {
+-(void)viewDidLayoutSubviews{
+    NSLog(@"viewWillLayoutSubviews");
+}
+
+-(void)viewWillLayoutSubviews {
+    
+    NSLog(@"viewDidLayoutSubviews");
     
     [super viewDidLayoutSubviews];
     
